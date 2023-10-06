@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 final isDarkModeProvider = StateProvider<bool>((ref) {
-  return false;
+  return true;
 });
 
 class AppTheme {
@@ -46,7 +47,7 @@ class AppTheme {
   );
   static final ThemeData uniDarkTheme = ThemeData(
     brightness: Brightness.dark,
-    scaffoldBackgroundColor: const Color.fromARGB(255, 56, 53, 53),
+    scaffoldBackgroundColor: Color.fromARGB(255, 14, 19, 36),
     primaryColor: Colors.green,
     sliderTheme: const SliderThemeData(
       trackHeight: 25.0,
@@ -61,7 +62,7 @@ class AppTheme {
       brightness: Brightness.dark,
       primary: Color.fromARGB(255, 62, 61, 61),
       onPrimary: Color.fromARGB(255, 255, 255, 255),
-      secondary: Color.fromARGB(255, 89, 106, 135),
+      secondary: Color.fromARGB(255, 78, 126, 209),
       onSecondary: Color.fromARGB(255, 94, 92, 92),
       error: Color.fromARGB(255, 220, 15, 15),
       onError: Color.fromARGB(255, 255, 255, 255),
@@ -86,40 +87,40 @@ class AppTheme {
 getThemeSideBar(BuildContext context) => SidebarXTheme(
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(20),
       ),
       hoverColor: Theme.of(context).scaffoldBackgroundColor,
-      hoverTextStyle: TextStyle(
-        color: Theme.of(context).colorScheme.onPrimary,
+      hoverTextStyle: GoogleFonts.outfit(
+        color: Theme.of(context).colorScheme.secondary,
         fontWeight: FontWeight.bold,
+        fontSize: 25,
       ),
-      textStyle: TextStyle(
+      textStyle: GoogleFonts.outfit(
         color: Theme.of(context).colorScheme.onPrimary,
+        fontSize: 25,
       ),
-      selectedTextStyle: TextStyle(
+      selectedTextStyle: GoogleFonts.outfit(
         color: Theme.of(context).colorScheme.onPrimary,
+        fontSize: 25,
       ),
       itemTextPadding: const EdgeInsets.only(left: 30),
       selectedItemTextPadding: const EdgeInsets.only(left: 30),
       itemDecoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.white),
+        //border: Border.all(color: Colors.white),
       ),
       selectedItemDecoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: const Color(0xFF5F5FA7).withOpacity(0.6).withOpacity(0.37),
+          color: Theme.of(context).colorScheme.onPrimary,
         ),
-        gradient: const LinearGradient(
-          colors: [Color.fromARGB(255, 187, 208, 221), Colors.white],
+        gradient: LinearGradient(
+          colors: [
+            Color.fromARGB(255, 75, 76, 76),
+            Theme.of(context).scaffoldBackgroundColor
+          ],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.28),
-            blurRadius: 30,
-          )
-        ],
       ),
       iconTheme: IconThemeData(
         color: Theme.of(context).colorScheme.onPrimary,
@@ -131,9 +132,9 @@ getThemeSideBar(BuildContext context) => SidebarXTheme(
       ),
     );
 
-getExtendedTheme() => const SidebarXTheme(
-      width: 200,
+getExtendedTheme(BuildContext context) => SidebarXTheme(
+      width: 280,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).scaffoldBackgroundColor,
       ),
     );

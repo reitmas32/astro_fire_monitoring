@@ -1,5 +1,5 @@
+import 'package:astro_fire_monitoring/ui/astrofire_monitoring.dart';
 import 'package:astro_fire_monitoring/ui/pages/error.dart';
-import 'package:astro_fire_monitoring/ui/pages/home.dart';
 import 'package:astro_fire_monitoring/ui/providers/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +15,7 @@ class _AstroFireAppState extends ConsumerState<AstroFireApp> {
     routes: [
       GoRoute(
         path: "/",
-        builder: (context, state) => HomePage(),
+        builder: (context, state) => AstroFireMonitoring(),
       ),
     ],
     errorBuilder: (context, state) => const ErrorPage(),

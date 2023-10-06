@@ -1,4 +1,3 @@
-import 'package:astro_fire_monitoring/ui/providers/map_controller.dart';
 import 'package:astro_fire_monitoring/ui/providers/marks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -12,7 +11,6 @@ class FireMarkers extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(mapControllerProvider);
     final marks = ref.watch(getMarksFires);
     return MarkerLayer(
       markers: marks.when(

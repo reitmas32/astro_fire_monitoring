@@ -29,8 +29,8 @@ class _MapUIState extends ConsumerState<MapUI> {
       children: [
         FlutterMap(
           options: MapOptions(
-            center: LatLng(20, -100),
-            zoom: 9.2,
+            center: LatLng(0, 30),
+            zoom: 3,
           ),
           mapController: controller,
           nonRotatedChildren: [

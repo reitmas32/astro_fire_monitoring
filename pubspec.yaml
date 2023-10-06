@@ -40,7 +40,10 @@ dependencies:
   flutter_map: ^5.0.0
   sidebarx: ^0.16.2
   eva_icons_flutter: ^3.1.0
-  google_maps_flutter: ^2.5.0
+  vector_map_tiles: ^6.0.0
+  google_fonts: ^6.1.0
+  material_floating_search_bar_2: ^0.5.0
+
 
 ev_dependencies:
   flutter_test:

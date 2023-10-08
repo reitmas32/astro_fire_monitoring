@@ -1,4 +1,5 @@
 import 'package:astro_fire_monitoring/ui/providers/sidebar_controller.dart';
+import 'package:astro_fire_monitoring/ui/views/camera.dart';
 import 'package:astro_fire_monitoring/ui/views/map_ui.dart';
 import 'package:astro_fire_monitoring/ui/views/notifications.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ class HomeView extends ConsumerWidget {
             return NotificationFires();
           case 1:
             return MapUI();
+          case 2:
+            return CameraUI();
           default:
             return Text(
               pageTitle,

@@ -22,7 +22,7 @@ class FireMarkers extends ConsumerWidget {
                     point: LatLng(e.latitude, e.longitude),
                     width: 50,
                     height: 50,
-                    builder: (context) => e.isDead ? Icon(EvaIcons.heart, color: Colors.red,) : Icon(EvaIcons.heart, color: Colors.green,),
+                    builder: (context) => e.isDead ? Icon(EvaIcons.radio, color: Colors.red,) : Icon(EvaIcons.radio, color: Colors.green,),
                   );
                 },
               ).toList(),

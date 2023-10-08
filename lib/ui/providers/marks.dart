@@ -8,7 +8,7 @@ class MarksFires extends StateNotifier<List<FireDetection>> {
 
   Future<List<FireDetection>> load() async {
     if (state.isEmpty) {
-      final response = await FakeApiService.getFakeData();
+      final response = await SystemAPI.getFakeData();
       if (response.isNotEmpty) {
         state = response;
       }

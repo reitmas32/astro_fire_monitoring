@@ -29,8 +29,8 @@ class _CameraUIState extends ConsumerState<CameraUI> {
             right: 10,
             bottom: 10,
             child: Container(
-              height: 200,
-              width: 250,
+              height: 400,
+              width: 450,
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(10),
@@ -38,8 +38,8 @@ class _CameraUIState extends ConsumerState<CameraUI> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  height: 180,
-                  width: 230,
+                  height: 380,
+                  width: 430,
                   decoration: BoxDecoration(
                     color: Colors.black,
                   ),
@@ -121,14 +121,20 @@ class _CameraUIState extends ConsumerState<CameraUI> {
       final oneMinuteAgo = now.subtract(Duration(minutes: 1));
 
       // Obtener la hora y los minutos de la hora actual menos un minuto
-      final hour = intToStringPair(oneMinuteAgo.hour);
+      final hour = intToStringPair(oneMinuteAgo.hour + 6);
       final minute = intToStringPair(oneMinuteAgo.minute);
 
       final mount = intToStringPair(oneMinuteAgo.month);
       final day = intToStringPair(oneMinuteAgo.day);
       final year = intToStringPair(oneMinuteAgo.year);
 
+      
+
       var datetime_event = '$year-$mount-$day%20$hour%3A$minute%3A00';
+
+      //datetime_event = '2023-10-08%2017%3A19%3A40';
+
+      print(datetime_event);
 
       final response = await http.get(Uri.parse(
           'https://system-api-hackthon.onrender.com/api/v1/dron-temperature/?datetime_event=$datetime_event'));
@@ -140,6 +146,8 @@ class _CameraUIState extends ConsumerState<CameraUI> {
           List<dynamic> rawTemperatures = data['Data']['temperatures'];
 
           image = rawTemperatures.map((value) => value.toDouble()).toList();
+
+          //print(image);
         });
       } else {
         throw Exception('No se pudo cargar el número aleatorio');
@@ -152,21 +160,21 @@ class _CameraUIState extends ConsumerState<CameraUI> {
   getCOlorFromTemperature(double temperature) {
     if (temperature <= 15) {
       return const Color.fromARGB(255, 47, 33, 243);
-    } else if (temperature < 30) {
+    } else if (temperature < 25) {
       return Color.fromARGB(255, 62, 174, 194);
-    } else if (temperature <= 45) {
+    } else if (temperature <= 30) {
       return Color.fromARGB(255, 2, 253, 86);
-    } else if (temperature < 60) {
+    } else if (temperature < 35) {
       return Color.fromARGB(255, 194, 66, 62);
-    } else if (temperature <= 100) {
+    } else if (temperature <= 40) {
       return Color.fromARGB(255, 253, 61, 2);
-    } else if (temperature < 150) {
+    } else if (temperature < 45) {
       return Color.fromARGB(255, 194, 121, 62);
-    } else if (temperature <= 200) {
+    } else if (temperature <= 50) {
       return Color.fromARGB(255, 253, 173, 2);
-    } else if (temperature < 300) {
+    } else if (temperature < 55) {
       return Color.fromARGB(255, 194, 159, 62);
-    } else if (temperature <= 400) {
+    } else if (temperature <= 70) {
       return Color.fromARGB(255, 249, 253, 2);
     } else {}
   }

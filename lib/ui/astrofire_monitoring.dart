@@ -14,7 +14,7 @@ class AstroFireMonitoring extends ConsumerWidget {
       key: _key,
       body: Row(
         children: [
-          AstroFireSideBar(),
+          //AstroFireSideBar(),
           Expanded(
             child: Center(
               child: HomeView(),

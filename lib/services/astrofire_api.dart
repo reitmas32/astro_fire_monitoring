@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
+
+import 'package:astro_fire_monitoring/ui/providers/camera.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:astro_fire_monitoring/models/fire_detection.dart';
 
-class FakeApiService {
+class SystemAPI {
   // Simulamos la obtención de datos de la API.
   static Future<List<FireDetection>> getFakeData() async {
     // Simulamos un retraso de 1 segundo para emular una solicitud HTTP.
@@ -145,5 +149,38 @@ class FakeApiService {
         fakeData.map((json) => FireDetection.fromJson(json)).toList();
 
     return fireDetections;
+  }
+
+  static Future<List<Temperature>> getTeperatures(String time) async {
+    try {
+      final hour = time[0] + time[1];
+      final minute = time[3] + time[4];
+
+      final String url =
+          'https://sytem-fire-api-prod.onrender.com/api/v1/dron-temperature/?datetime_event=2023-10-07%20$hour%3A$minute%3A00';
+      print(url);
+
+      final uri = Uri.parse(url);
+
+      var response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        var bodyDecode = jsonDecode(response.body);
+
+        final temperatures = bodyDecode['Data']['temperatures'];
+
+        final List<Temperature> temperaturesDouble = [];
+
+        for (var t in temperatures) {
+          temperaturesDouble.add(Temperature(t));
+        }
+
+        return temperaturesDouble;
+      } else {
+        throw Exception('Error en la solicitud HTTP: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error en la solicitud HTTP: $e');
+    }
   }
 }

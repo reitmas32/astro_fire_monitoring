@@ -25,16 +25,16 @@ class StatsTitle extends StatelessWidget {
           Text(
             lable,
             style: GoogleFonts.outfit(
-              fontSize: 12,
+              fontSize: 20,
               color: color,
               fontWeight: FontWeight.bold,
             ),
           ),
           Spacer(),
           Text(
-            '$percentage%',
+            '$percentage',
             style: GoogleFonts.outfit(
-                fontSize: 12,
+                fontSize: 20,
                 color: Theme.of(context).colorScheme.onPrimary,
                 fontWeight: FontWeight.bold),
           ),

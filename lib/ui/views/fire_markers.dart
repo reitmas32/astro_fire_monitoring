@@ -1,4 +1,5 @@
 import 'package:astro_fire_monitoring/ui/providers/marks.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,9 +22,7 @@ class FireMarkers extends ConsumerWidget {
                     point: LatLng(e.latitude, e.longitude),
                     width: 50,
                     height: 50,
-                    builder: (context) => Image.network(
-                      'https://raw.githubusercontent.com/reitmas32/astro_fire_monitoring/master/assets/png-transparent-motion-sensors-computer-icons-others-text-logo-monochrome.png',
-                    ),
+                    builder: (context) => e.isDead ? Icon(EvaIcons.heart, color: Colors.red,) : Icon(EvaIcons.heart, color: Colors.green,),
                   );
                 },
               ).toList(),

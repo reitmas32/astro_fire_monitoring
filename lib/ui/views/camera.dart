@@ -128,8 +128,6 @@ class _CameraUIState extends ConsumerState<CameraUI> {
       final day = intToStringPair(oneMinuteAgo.day);
       final year = intToStringPair(oneMinuteAgo.year);
 
-      
-
       var datetime_event = '$year-$mount-$day%20$hour%3A$minute%3A00';
 
       //datetime_event = '2023-10-08%2017%3A19%3A40';
@@ -143,9 +141,11 @@ class _CameraUIState extends ConsumerState<CameraUI> {
         final data = json.decode(response.body);
         setState(() {
           currentHour = '$year-$mount-$day $hour:$minute:00';
-          List<dynamic> rawTemperatures = data['Data']['temperatures'];
-
-          image = rawTemperatures.map((value) => value.toDouble()).toList();
+          var data_array = data['Data'];
+          if (data_array != null) {
+            List<dynamic> rawTemperatures = data['Data']['temperatures'];
+            image = rawTemperatures.map((value) => value.toDouble()).toList();
+          }
 
           //print(image);
         });

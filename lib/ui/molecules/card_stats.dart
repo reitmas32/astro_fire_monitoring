@@ -27,7 +27,7 @@ class CardStats extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Sesores Muertos',
+                  'Sesores',
                   style: GoogleFonts.outfit(
                     fontSize: 25,
                   ),
@@ -38,6 +38,22 @@ class CardStats extends ConsumerWidget {
                     fontSize: 50,
                   ),
                 ),
+                StatsTitle(
+                  lable: 'Vivos',
+                  percentage: sensors
+                      .where((element) => !element.isDead)
+                      .length
+                      .toDouble(),
+                  color: Colors.green,
+                ),
+                StatsTitle(
+                  lable: 'Muertos',
+                  percentage: sensors
+                      .where((element) => element.isDead)
+                      .length
+                      .toDouble(),
+                  color: Colors.red,
+                )
               ],
             ),
           ),

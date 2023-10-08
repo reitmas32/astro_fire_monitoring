@@ -187,14 +187,32 @@ class SystemAPI {
   static Future<List<DeathSensor>> getSensors() async {
     try {
       final String url =
-          'https://sytem-fire-api-prod.onrender.com/api/v1/death-sensors/';
+          'https://system-api-hackthon.onrender.com/api/v1/deadth-sensor/all';
       print(url);
 
       final uri = Uri.parse(url);
 
-      var response = 200; //await http.get(uri);
+      var response = await http.get(uri);
 
-      if (response == 200) {
+      var dataDecode = jsonDecode(response.body);
+
+      var data = dataDecode['Data'];
+
+      List<DeathSensor> sensorsData = [];
+
+      for (var e in data) {
+        sensorsData.add(DeathSensor(
+            latitude: (e['longitude'].toDouble()*0.002)  + 20.06,
+            longitude: (e['latitude'].toDouble()*0.002) - 98.955,
+            datetimeEvent: e['datetime_event'],
+            temperature: e['temperature'].toDouble(),
+            batteryPercentage: e['battery_percentage'].toInt(),
+            isDead: e['is_dead']));
+      }
+
+      print(sensorsData.length);
+
+      if (response.statusCode == 200) {
         //var bodyDecode = jsonDecode(response.body);
 
         //final temperatures = bodyDecode['Data'];
@@ -205,30 +223,10 @@ class SystemAPI {
             datetimeEvent: "2023-10-08T10:41:43.339Z",
             temperature: 25.5,
             batteryPercentage: 80,
-          ),
-          DeathSensor(
-            latitude: 20.1,
-            longitude: -99.1,
-            datetimeEvent: "2023-10-08T14:30:15.123Z",
-            temperature: 28.0,
-            batteryPercentage: 75,
-          ),
-          DeathSensor(
-            latitude: 20.2,
-            longitude: -99.2,
-            datetimeEvent: "2023-10-08T19:15:30.987Z",
-            temperature: 22.8,
-            batteryPercentage: 90,
-          ),
-          DeathSensor(
-            latitude: 20.3,
-            longitude: -99.3,
-            datetimeEvent: "2023-10-08T23:59:59.999Z",
-            temperature: 30.2,
-            batteryPercentage: 60,
+            isDead: false,
           ),
         ];
-        return sensors;
+        return sensorsData;
       } else {
         throw Exception('Error en la solicitud HTTP: ');
       }
@@ -244,6 +242,7 @@ class DeathSensor {
   final String datetimeEvent;
   final double temperature;
   final int batteryPercentage;
+  final bool isDead;
 
   DeathSensor({
     required this.latitude,
@@ -251,16 +250,17 @@ class DeathSensor {
     required this.datetimeEvent,
     required this.temperature,
     required this.batteryPercentage,
+    required this.isDead,
   });
 
   factory DeathSensor.fromJson(Map<String, dynamic> json) {
     return DeathSensor(
-      latitude: json['latitude'] ?? 0.0,
-      longitude: json['longitude'] ?? 0.0,
-      datetimeEvent: json['datetime_event'] ?? "",
-      temperature: json['temperature'] ?? 0.0,
-      batteryPercentage: json['battery_percentage'] ?? 0,
-    );
+        latitude: json['latitude'] ?? 0.0,
+        longitude: json['longitude'] ?? 0.0,
+        datetimeEvent: json['datetime_event'] ?? "",
+        temperature: json['temperature'] ?? 0.0,
+        batteryPercentage: json['battery_percentage'] ?? 0,
+        isDead: json['is_dead'] ?? '');
   }
 
   Map<String, dynamic> toJson() {

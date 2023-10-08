@@ -19,14 +19,21 @@ class AstroFireSideBar extends ConsumerWidget {
           Divider(color: Color.fromARGB(255, 15, 88, 224), height: 1),
       animationDuration: Duration(milliseconds: 200),
       headerBuilder: (context, extended) {
-        return SizedBox(
-          height: 100,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Image.network(
-              'https://cdn-icons-png.flaticon.com/512/708/708290.png',
+        return Column(
+          children: [
+            SizedBox(
+              height: 100,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Image.network(
+                  'https://cdn-icons-png.flaticon.com/512/708/708290.png',
+                ),
+              ),
             ),
-          ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 4,
+            ),
+          ],
         );
       },
       items: [

@@ -118,7 +118,7 @@ class _CameraUIState extends ConsumerState<CameraUI> {
       final now = DateTime.now();
 
       // Restar 1 minuto a la hora actual
-      final oneMinuteAgo = now.subtract(Duration(minutes: 1));
+      final oneMinuteAgo = now.subtract(Duration(seconds: 5));
 
       // Obtener la hora y los minutos de la hora actual menos un minuto
       final hour = intToStringPair(oneMinuteAgo.hour + 6);
@@ -174,7 +174,7 @@ class _CameraUIState extends ConsumerState<CameraUI> {
       return Color.fromARGB(255, 253, 173, 2);
     } else if (temperature < 55) {
       return Color.fromARGB(255, 194, 159, 62);
-    } else if (temperature <= 70) {
+    } else if (temperature <= 100) {
       return Color.fromARGB(255, 249, 253, 2);
     } else {}
   }

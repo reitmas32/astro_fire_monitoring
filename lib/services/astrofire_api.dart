@@ -183,4 +183,93 @@ class SystemAPI {
       throw Exception('Error en la solicitud HTTP: $e');
     }
   }
+
+  static Future<List<DeathSensor>> getSensors() async {
+    try {
+      final String url =
+          'https://sytem-fire-api-prod.onrender.com/api/v1/death-sensors/';
+      print(url);
+
+      final uri = Uri.parse(url);
+
+      var response = 200; //await http.get(uri);
+
+      if (response == 200) {
+        //var bodyDecode = jsonDecode(response.body);
+
+        //final temperatures = bodyDecode['Data'];
+        final List<DeathSensor> sensors = [
+          DeathSensor(
+            latitude: 20,
+            longitude: -99,
+            datetimeEvent: "2023-10-08T10:41:43.339Z",
+            temperature: 25.5,
+            batteryPercentage: 80,
+          ),
+          DeathSensor(
+            latitude: 20.1,
+            longitude: -99.1,
+            datetimeEvent: "2023-10-08T14:30:15.123Z",
+            temperature: 28.0,
+            batteryPercentage: 75,
+          ),
+          DeathSensor(
+            latitude: 20.2,
+            longitude: -99.2,
+            datetimeEvent: "2023-10-08T19:15:30.987Z",
+            temperature: 22.8,
+            batteryPercentage: 90,
+          ),
+          DeathSensor(
+            latitude: 20.3,
+            longitude: -99.3,
+            datetimeEvent: "2023-10-08T23:59:59.999Z",
+            temperature: 30.2,
+            batteryPercentage: 60,
+          ),
+        ];
+        return sensors;
+      } else {
+        throw Exception('Error en la solicitud HTTP: ');
+      }
+    } catch (e) {
+      throw Exception('Error en la solicitud HTTP: $e');
+    }
+  }
+}
+
+class DeathSensor {
+  final double latitude;
+  final double longitude;
+  final String datetimeEvent;
+  final double temperature;
+  final int batteryPercentage;
+
+  DeathSensor({
+    required this.latitude,
+    required this.longitude,
+    required this.datetimeEvent,
+    required this.temperature,
+    required this.batteryPercentage,
+  });
+
+  factory DeathSensor.fromJson(Map<String, dynamic> json) {
+    return DeathSensor(
+      latitude: json['latitude'] ?? 0.0,
+      longitude: json['longitude'] ?? 0.0,
+      datetimeEvent: json['datetime_event'] ?? "",
+      temperature: json['temperature'] ?? 0.0,
+      batteryPercentage: json['battery_percentage'] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'latitude': latitude,
+      'longitude': longitude,
+      'datetime_event': datetimeEvent,
+      'temperature': temperature,
+      'battery_percentage': batteryPercentage,
+    };
+  }
 }

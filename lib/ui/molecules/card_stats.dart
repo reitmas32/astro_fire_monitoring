@@ -1,14 +1,17 @@
 import 'package:astro_fire_monitoring/ui/atoms/stats_title.dart';
+import 'package:astro_fire_monitoring/ui/providers/marks.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CardStats extends StatelessWidget {
+class CardStats extends ConsumerWidget {
   const CardStats({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sensors = ref.watch(marksSensorsProvider);
     return Positioned(
       top: 50,
       left: 50,
@@ -24,31 +27,16 @@ class CardStats extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Incendios Actules',
+                  'Sesores Muertos',
                   style: GoogleFonts.outfit(
                     fontSize: 25,
                   ),
                 ),
                 Text(
-                  '750',
+                  '${sensors.length}',
                   style: GoogleFonts.outfit(
                     fontSize: 50,
                   ),
-                ),
-                StatsTitle(
-                  lable: '- ACTIVO',
-                  percentage: 11.56,
-                  color: Colors.red,
-                ),
-                StatsTitle(
-                  lable: '- ESTABILIZADO',
-                  percentage: 50.44,
-                  color: Colors.orange,
-                ),
-                StatsTitle(
-                  lable: '- CONTROLADO',
-                  percentage: 38,
-                  color: Colors.yellow,
                 ),
               ],
             ),

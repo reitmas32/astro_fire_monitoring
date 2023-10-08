@@ -37,20 +37,9 @@ class AstroFireSideBar extends ConsumerWidget {
         );
       },
       items: [
-        SidebarXItem(
-          icon: Icons.notifications,
-          label: 'NOTIFICATIONS',
-          onTap: () {
-            debugPrint('Home');
-          },
-        ),
         const SidebarXItem(
           icon: Icons.map_outlined,
           label: 'MAP',
-        ),
-        const SidebarXItem(
-          icon: EvaIcons.videoOutline,
-          label: 'CAM',
         ),
         SidebarXItem(
           icon: Icons.settings,

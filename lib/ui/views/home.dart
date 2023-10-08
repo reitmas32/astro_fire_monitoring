@@ -20,11 +20,7 @@ class HomeView extends ConsumerWidget {
         final pageTitle = _getTitleByIndex(controller.selectedIndex);
         switch (controller.selectedIndex) {
           case 0:
-            return NotificationFires();
-          case 1:
             return MapUI();
-          case 2:
-            return CameraUI();
           default:
             return Text(
               pageTitle,
@@ -39,8 +35,6 @@ class HomeView extends ConsumerWidget {
 String _getTitleByIndex(int index) {
   switch (index) {
     case 2:
-      return 'Aqui va la vista de la camara del dron';
-    case 3:
       return 'Settings';
 
     default:

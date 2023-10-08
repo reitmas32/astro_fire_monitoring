@@ -1,9 +1,12 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:astro_fire_monitoring/ui/molecules/hour_slider.dart';
-import 'package:astro_fire_monitoring/ui/providers/camera.dart';
 import 'package:astro_fire_monitoring/ui/providers/hour_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class CameraUI extends ConsumerStatefulWidget {
   CameraUI({super.key});
@@ -16,58 +19,134 @@ class _CameraUIState extends ConsumerState<CameraUI> {
   @override
   Widget build(BuildContext context) {
     final controller = ref.watch(hourSliderControllerProvider);
-    final picture = ref.watch(cameraPictureProvider);
-    final currentHour = ref.watch(hourProvider);
-    print(picture.length);
-    return Column(
-      children: [
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              height: 600,
-              width: 800,
+    //final picture = ref.watch(cameraPictureProvider);
+    print(image.length);
+    return Container(
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          Positioned(
+            right: 10,
+            bottom: 10,
+            child: Container(
+              height: 200,
+              width: 250,
               decoration: BoxDecoration(
                 color: Colors.black,
-                borderRadius: BorderRadius.circular(50),
+                borderRadius: BorderRadius.circular(10),
               ),
-            ),
-            Container(
-              height: 500,
-              width: 700,
-              decoration: BoxDecoration(
-                color: Colors.red,
-              ),
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 32, // Número de columnas
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 180,
+                  width: 230,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 32, // Número de columnas
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        // Colores de la lista
+                        //height: 100.0,
+                        //width: 100.0,
+                        child: Center(),
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 0.1),
+                          color: getCOlorFromTemperature(
+                            image[index],
+                          ),
+                        ),
+                      );
+                    },
+                    itemCount: image.length, // Número de celdas
+                  ),
                 ),
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    color: getCOlorFromTemperature(
-                      picture[index].value,
-                    ), // Colores de la lista
-                    //height: 100.0,
-                    //width: 100.0,
-                    child: Center(),
-                  );
-                },
-                itemCount: picture.length, // Número de celdas
               ),
             ),
-            Positioned(
-              child: Text(
-                currentHour,
-                style: GoogleFonts.outfit(fontSize: 25),
-              ),
-              top: 50,
-              right: 50,
+          ),
+          Positioned(
+            child: Text(
+              currentHour,
+              style: GoogleFonts.outfit(fontSize: 15),
             ),
-          ],
-        ),
-        HourSlider(controller: controller),
-      ],
+            top: 20,
+            right: 20,
+          ),
+        ],
+      ),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
+      fetchRandomNumber();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    // Cancela el temporizador en dispose
+    _timer.cancel();
+  }
+
+  String intToStringPair(int num) {
+    if (num >= 0 && num < 10) {
+      return '0$num';
+    } else if (num < 0) {
+      return '00';
+    }
+    return '$num';
+  }
+
+  List<dynamic> image = List.generate(768, (index) => 0.0);
+  String currentHour = '';
+
+  late Timer _timer;
+
+  Future<void> fetchRandomNumber() async {
+    // Obtener la hora actual
+    try {
+      // Obtener la hora actual
+      final now = DateTime.now();
+
+      // Restar 1 minuto a la hora actual
+      final oneMinuteAgo = now.subtract(Duration(minutes: 1));
+
+      // Obtener la hora y los minutos de la hora actual menos un minuto
+      final hour = intToStringPair(oneMinuteAgo.hour);
+      final minute = intToStringPair(oneMinuteAgo.minute);
+
+      final mount = intToStringPair(oneMinuteAgo.month);
+      final day = intToStringPair(oneMinuteAgo.day);
+      final year = intToStringPair(oneMinuteAgo.year);
+
+      var datetime_event = '$year-$mount-$day%20$hour%3A$minute%3A00';
+
+      final response = await http.get(Uri.parse(
+          'https://system-api-hackthon.onrender.com/api/v1/dron-temperature/?datetime_event=$datetime_event'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          currentHour = '$year-$mount-$day $hour:$minute:00';
+          List<dynamic> rawTemperatures = data['Data']['temperatures'];
+
+          image = rawTemperatures.map((value) => value.toDouble()).toList();
+        });
+      } else {
+        throw Exception('No se pudo cargar el número aleatorio');
+      }
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 
   getCOlorFromTemperature(double temperature) {

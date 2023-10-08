@@ -2,6 +2,7 @@ import 'package:astro_fire_monitoring/ui/atoms/color_filter.dart';
 import 'package:astro_fire_monitoring/ui/molecules/astrofire_searchbar.dart';
 import 'package:astro_fire_monitoring/ui/molecules/card_stats.dart';
 import 'package:astro_fire_monitoring/ui/providers/map_controller.dart';
+import 'package:astro_fire_monitoring/ui/views/camera.dart';
 import 'package:astro_fire_monitoring/ui/views/fire_markers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
@@ -29,8 +30,8 @@ class _MapUIState extends ConsumerState<MapUI> {
       children: [
         FlutterMap(
           options: MapOptions(
-            center: LatLng(0, 30),
-            zoom: 3,
+            center: LatLng(20, -99),
+            zoom: 10,
           ),
           mapController: controller,
           nonRotatedChildren: [
@@ -53,6 +54,7 @@ class _MapUIState extends ConsumerState<MapUI> {
         ),
         ColorFilterTheme(),
         CardStats(),
+        Positioned(child: CameraUI()),
         AstroFireSearchBar(),
       ],
     );

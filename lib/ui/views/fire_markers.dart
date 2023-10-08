@@ -11,7 +11,7 @@ class FireMarkers extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final marks = ref.watch(getMarksFires);
+    final marks = ref.watch(getsensorsMarks);
     return MarkerLayer(
       markers: marks.when(
           data: (data) => data.map(
@@ -22,7 +22,7 @@ class FireMarkers extends ConsumerWidget {
                     width: 50,
                     height: 50,
                     builder: (context) => Image.network(
-                      'https://cdn-icons-png.flaticon.com/512/599/599502.png',
+                      'https://raw.githubusercontent.com/reitmas32/astro_fire_monitoring/master/assets/png-transparent-motion-sensors-computer-icons-others-text-logo-monochrome.png',
                     ),
                   );
                 },

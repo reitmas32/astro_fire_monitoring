@@ -125,7 +125,7 @@ class _CameraUIState extends ConsumerState<CameraUI> {
       final minute = intToStringPair(oneMinuteAgo.minute);
 
       final mount = intToStringPair(oneMinuteAgo.month);
-      final day = intToStringPair(oneMinuteAgo.day);
+      final day = intToStringPair(oneMinuteAgo.day - 1);
       final year = intToStringPair(oneMinuteAgo.year);
 
       var datetime_event = '$year-$mount-$day%20$hour%3A$minute%3A00';

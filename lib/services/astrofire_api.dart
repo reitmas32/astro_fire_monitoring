@@ -157,12 +157,14 @@ class SystemAPI {
       final minute = time[3] + time[4];
 
       final String url =
-          'https://sytem-fire-api-prod.onrender.com/api/v1/dron-temperature/?datetime_event=2023-10-07%20$hour%3A$minute%3A00';
+          'https://system-api-hackthon.onrender.com/api/v1/dron-temperature/?datetime_event=2023-10-07%20$hour%3A$minute%3A00';
       print(url);
 
       final uri = Uri.parse(url);
 
       var response = await http.get(uri);
+
+      print(response.statusCode);
 
       if (response.statusCode == 200) {
         var bodyDecode = jsonDecode(response.body);

@@ -125,10 +125,11 @@ class _CameraUIState extends ConsumerState<CameraUI> {
       final minute = intToStringPair(oneMinuteAgo.minute);
 
       final mount = intToStringPair(oneMinuteAgo.month);
-      final day = intToStringPair(oneMinuteAgo.day - 1);
+      final day = intToStringPair(oneMinuteAgo.day + 1);
       final year = intToStringPair(oneMinuteAgo.year);
 
-      var datetime_event = '$year-$mount-$day%20$hour%3A$minute%3A00';
+      var datetime_event = '2023-10-09%2001%3A$minute%3A00';
+      print(datetime_event);
 
       //datetime_event = '2023-10-08%2017%3A19%3A40';
 
@@ -136,7 +137,7 @@ class _CameraUIState extends ConsumerState<CameraUI> {
 
       final response = await http.get(Uri.parse(
           'https://system-api-hackthon.onrender.com/api/v1/dron-temperature/?datetime_event=$datetime_event'));
-
+  print(response.body);
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         setState(() {
